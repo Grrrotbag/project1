@@ -1,0 +1,148 @@
+{% extends "layout.html" %} {% block title %}{{book.title}}{% endblock title %}
+{% block page_title %} {{book.title}} {% endblock page_title%} {% block content
+%}
+<div class="card mt-3" style="width: 24rem;">
+  <img
+    class="card-img-top"
+    src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-L.jpg"
+    alt="Cover image"
+  />
+  <p class="small">
+    Cover art from
+    <a href="http://openlibrary.org/isbn/{{ book.isbn }}"
+      >http://openlibrary.org/isbn/{{ book.isbn }}</a
+    >
+  </p>
+  <div class="card-body">
+    <h5 class="card-title">by <strong>{{ book.author }}</strong></h5>
+    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">ISBN: <strong>{{ book.isbn }}</strong></li>
+    <li class="list-group-item">Released: <strong>{{ book.year }}</strong></li>
+    <li class="list-group-item">
+      Goodreads Rating:
+      <strong>{{ goodreads.books[0].average_rating }}</strong> stars from
+      <strong
+        >{{ "{:,.0f}".format(goodreads.books[0].work_ratings_count) }}</strong
+      >
+      reviews.
+    </li>
+  </ul>
+</div>
+
+<h3 class="mt-5 mb-3">Leave a Review</h3>
+
+<form action="{{ url_for('review', book_id=book.id) }}" method="POST">
+  <div class="btn-group btn-group-toggle mb-3" data-toggle="buttons">
+    <label class="btn btn-outline-danger btn-lg">
+      <input
+        type="radio"
+        name="rating"
+        id="option1"
+        autocomplete="off"
+        value="1"
+      />
+      <i class="fas fa-star"></i>
+    </label>
+    <label class="btn btn-outline-danger btn-lg">
+      <input
+        type="radio"
+        name="rating"
+        id="option2"
+        autocomplete="off"
+        value="2"
+      />
+      <i class="fas fa-star"></i><i class="fas fa-star"></i>
+    </label>
+    <label class="btn btn-outline-danger btn-lg">
+      <input
+        type="radio"
+        name="rating"
+        id="option3"
+        autocomplete="off"
+        value="3"
+      />
+      <i class="fas fa-star"></i><i class="fas fa-star"></i
+      ><i class="fas fa-star"></i>
+    </label>
+    <label class="btn btn-outline-danger btn-lg">
+      <input
+        type="radio"
+        name="rating"
+        id="option4"
+        autocomplete="off"
+        value="4"
+      />
+      <i class="fas fa-star"></i><i class="fas fa-star"></i
+      ><i class="fas fa-star"></i><i class="fas fa-star"></i>
+    </label>
+    <label class="btn btn-outline-danger btn-lg">
+      <input
+        type="radio"
+        name="rating"
+        id="option5"
+        autocomplete="off"
+        value="5"
+      />
+      <i class="fas fa-star"></i><i class="fas fa-star"></i
+      ><i class="fas fa-star"></i><i class="fas fa-star"></i
+      ><i class="fas fa-star"></i>
+    </label>
+  </div>
+
+  <textarea
+    class="form-control mb-3"
+    name="review"
+    rows="3"
+    placeholder="leave review"
+  ></textarea>
+
+  <button class="btn btn-primary my-2 my-sm-0" type="submit">Submit</button>
+</form>
+
+<hr />
+
+{% if reviews %}
+<h3 class="mt-5 mb-3">Previous Reviews</h3>
+
+<div class="list-group mt-5 mb-5">
+  {% for review in reviews %}
+
+  <div
+    class="list-group-item list-group-item-action flex-column align-items-start"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-3">
+        {% if review.star_rating == 1 %}
+        <i class="fas fa-star" style="color: #f4dc42;"></i>
+        {% elif review.star_rating == 2 %}
+        <i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i>
+        {% elif review.star_rating == 3 %}
+        <i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i>
+        {% elif review.star_rating == 4 %}
+        <i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i>
+        {% elif review.star_rating == 5 %}
+        <i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i
+        ><i class="fas fa-star" style="color: #f4dc42;"></i>
+        {% endif %}
+        <!-- {{review.star_rating}} Stars -->
+      </h5>
+      <small class="text-muted">Reviewed by {{ review.username }}</small>
+    </div>
+    <p class="mb-1">{{review.review_text}}</p>
+    <small>Reviewed on {{ review.date_created.strftime('%d %B, %Y') }}</small>
+  </div>
+
+  {% endfor %}
+</div>
+{% endif %} {% endblock content %}

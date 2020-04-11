@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+__pycache__/application.cpython-36.pyc
+flask_session
+env
+.vscode
+.DS_Store
+config/heroku.md
+config/psqlcommands.sql
+config/README.md

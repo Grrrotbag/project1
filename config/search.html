@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Search{% endblock title %}
+
+{% block page_title %} Search Books {% endblock page_title%}
+
+{% block content %}
+    <form class="form-control form-control-lg" action="/search" method="POST">
+        <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search for books" aria-label="Search" value="{{ request.form.search }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+{% endblock content %}

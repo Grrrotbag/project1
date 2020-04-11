@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Books{% endblock title %}
+
+{% block page_title %} All Books {% endblock page_title%}
+
+{% block content %}
+
+    <form class="input-group mt-3 mb-3" action="/search" method="POST">
+        <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"> -->
+        <input class="form-control" name="search" type="search" placeholder="Search for books" aria-label="Search" value="{{ request.form.search }}">
+        <div class="input-group-append">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </div>
+    </form>
+
+    <div class="list-group">
+        {% for book in books %}
+        
+            <a href="{{ url_for('book', book_id=book.id)}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ book.title }}</h5>
+                <small class="text-muted">{{book.isbn}}</small>
+                </div>
+                <p class="mb-1">{{book.author}}</p>
+                <small>{{book.year}}</small>
+            </a>
+
+        {% endfor %}
+    </div>
+
+{% endblock content %}
